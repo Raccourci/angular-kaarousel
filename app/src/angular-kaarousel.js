@@ -128,6 +128,9 @@ angular.module('angular-kaarousel', ['ngTouch'])
 
       },
       link: function (scope, element, attrs, ctrl) {
+        if(attrs.fixWidth){
+          element.css('width', element.width());
+        }
 
         var watchTimeout,
             windowTimeout,
