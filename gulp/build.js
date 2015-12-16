@@ -136,4 +136,4 @@ gulp.task('doDist', ['jsify'], function () {
     
 });
 
-gulp.task('build', ['doTheDistYall']);
+gulp.task('build', ['doDist']);

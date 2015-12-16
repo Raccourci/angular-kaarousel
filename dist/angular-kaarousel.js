@@ -657,7 +657,7 @@ angular.module('angular-kaarousel')
       link: function (scope, element, attrs, ctrl) {
 
         var factory = ctrl.getFactory(),
-            repeatRule, $i = scope.$index;
+            repeatRule, $i = scope.$index || parseInt(attrs.index, 10);
 
         angular.element(element).addClass('kaarousel-slide');
 
@@ -667,7 +667,7 @@ angular.module('angular-kaarousel')
 
         ctrl.addSlide(element, repeatRule ? scope[repeatRule] : null);
 
-        if ( scope.$last ) { ctrl.reachedLastItem(); }
+        if ( scope.$last || attrs.last) { ctrl.reachedLastItem(); }
 
         scope.isActive = function () {
           return factory.get('activeIndex') === $i;
@@ -690,11 +690,16 @@ angular.module('angular-kaarousel')
           return styles;
         };
 
-        scope.isVisible = function () {
+        scope.isVisible = function (customIndex) {
           var cu = factory.get('activeIndex'),
               max = factory.get('elements').length,
               disp = ctrl.getSettings().displayed;
 
+          if(customIndex){
+            customIndex = parseInt(customIndex);
+            return ( customIndex >= cu && customIndex < cu + disp ) ||
+              ( customIndex > max - disp - 1 && cu > max - disp - 1 );
+          }
           if ( ctrl.getSettings().centerActive && factory.get('isCentered') ) {
             return $i >= cu - Math.floor( disp / 2 ) &&
                    $i <= cu + Math.floor( disp / 2 ) ||
