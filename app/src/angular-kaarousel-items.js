@@ -8,7 +8,7 @@ angular.module('angular-kaarousel')
       link: function (scope, element, attrs, ctrl) {
 
         var factory = ctrl.getFactory(),
-            repeatRule, $i = scope.$index || parseInt(attrs.index, 10);
+            repeatRule, $i =  angular.isDefined(scope.$index) ? scope.$index : parseInt(attrs.index, 10);
 
         angular.element(element).addClass('kaarousel-slide');
 
